@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Stores customer profile and license details.
 model Customer {
   customer_id Int     @id @default(autoincrement())
   first_name  String  @db.VarChar(50)
@@ -21,6 +22,7 @@ model Customer {
   bookings Booking[]
 }
 
+// Stores customer phone numbers (one customer can have multiple numbers).
 model CustomerPhone {
   customer_id  Int
   phone_number String @db.VarChar(15)
@@ -31,6 +33,7 @@ model CustomerPhone {
   @@map("customer_phone")
 }
 
+// Stores rental vehicle inventory and pricing info.
 model Vehicle {
   vehicle_id          Int                 @id @default(autoincrement())
   brand               String              @db.VarChar(50)
@@ -42,6 +45,7 @@ model Vehicle {
   bookings Booking[]
 }
 
+// Stores booking transactions linking customers and vehicles.
 model Booking {
   booking_id     Int            @id @default(autoincrement())
   customer_id    Int
@@ -60,6 +64,7 @@ model Booking {
   @@index([vehicle_id])
 }
 
+// Stores payment entries; mapped to legacy column name payment_id in DB.
 model Payment {
   booking_id     Int            @id @map("payment_id")
   payment_date   DateTime       @db.Date
@@ -71,23 +76,27 @@ model Payment {
   @@map("payment")
 }
 
+// Allowed fuel categories for vehicles.
 enum FuelType {
   petrol
   diesel
   electric
 }
 
+// Allowed availability values for vehicle status.
 enum AvailabilityStatus {
   available
   booked
 }
 
+// Allowed lifecycle states for bookings.
 enum BookingStatus {
   pending
   confirmed
   cancelled
 }
 
+// Allowed lifecycle states for payments.
 enum PaymentStatus {
   pending
   in_progress

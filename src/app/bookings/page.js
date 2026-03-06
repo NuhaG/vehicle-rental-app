@@ -1,5 +1,6 @@
 import ResourceTester from "../_components/resource-tester";
 
+// Bookings module page configured with booking-specific fields and table columns.
 export default function BookingsPage() {
   return (
     <ResourceTester

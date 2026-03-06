@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+// Shared top navigation used across CRUD pages.
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/vehicles", label: "Vehicles" },
@@ -11,11 +12,13 @@ const navLinks = [
   { href: "/payments", label: "Payments" }
 ];
 
+// Resolves nested values like "customer.name" from table rows.
 function getValueByPath(obj, path) {
   if (!obj) return undefined;
   return path.split(".").reduce((acc, part) => acc?.[part], obj);
 }
 
+// Converts API date values into yyyy-mm-dd for input fields.
 function formatDateInput(value) {
   if (!value) return "";
   const date = new Date(value);
@@ -23,6 +26,7 @@ function formatDateInput(value) {
   return date.toISOString().slice(0, 10);
 }
 
+// Turns array-style values into a comma-separated string for form inputs.
 function normalizeArrayValue(value) {
   if (!Array.isArray(value)) return "";
   return value
@@ -35,6 +39,7 @@ function normalizeArrayValue(value) {
     .join(", ");
 }
 
+// Formats raw values for table cells.
 function formatDisplayValue(value) {
   if (value === null || value === undefined || value === "") return "-";
 
@@ -52,6 +57,7 @@ function formatDisplayValue(value) {
   return String(value);
 }
 
+// Generic CRUD UI used by vehicles/customers/bookings/payments pages.
 export default function ResourceTester({
   title,
   basePath,
@@ -65,6 +71,7 @@ export default function ResourceTester({
   const [lookupId, setLookupId] = useState("");
   const [updateId, setUpdateId] = useState("");
 
+  // Builds default form state from field configuration.
   const defaultForm = useMemo(() => {
     const form = {};
     for (const field of fields) {
@@ -76,6 +83,7 @@ export default function ResourceTester({
   const [createForm, setCreateForm] = useState(defaultForm);
   const [updateForm, setUpdateForm] = useState(defaultForm);
 
+  // Base request helper used by all actions.
   async function callApi(method, path, body) {
     const request = {
       method,
@@ -98,6 +106,7 @@ export default function ResourceTester({
     return { ok: response.ok, status: response.status, data };
   }
 
+  // Parses form values into API-ready payload values.
   function parseField(field, value) {
     if (value === undefined || value === null || value === "") return undefined;
 
@@ -118,6 +127,7 @@ export default function ResourceTester({
     return String(value);
   }
 
+  // Builds request body based on field config and mode.
   function buildPayload(form, mode) {
     const payload = {};
 
@@ -134,6 +144,7 @@ export default function ResourceTester({
     return payload;
   }
 
+  // Pre-fills the update form from a selected table row.
   function setFormFromRecord(record) {
     const nextForm = {};
 
@@ -155,6 +166,7 @@ export default function ResourceTester({
     setUpdateId(String(record?.[primaryKey] ?? ""));
   }
 
+  // Fetches and refreshes the table list.
   async function loadAll() {
     setBusy(true);
     setStatus("Loading data...");
@@ -177,6 +189,7 @@ export default function ResourceTester({
     }
   }
 
+  // Loads one record and pushes it into update form fields.
   async function lookupById() {
     if (!lookupId) {
       setStatus("Enter an ID to load");
@@ -202,6 +215,7 @@ export default function ResourceTester({
     }
   }
 
+  // Creates a record from the create form.
   async function createRecord() {
     setBusy(true);
     setStatus("Creating...");
@@ -223,6 +237,7 @@ export default function ResourceTester({
     }
   }
 
+  // Updates an existing record by selected ID.
   async function updateRecord() {
     if (!updateId) {
       setStatus("Enter or load an ID for update");
@@ -253,6 +268,7 @@ export default function ResourceTester({
     }
   }
 
+  // Deletes a record either by row action or update form ID.
   async function deleteRecord(id) {
     const selectedId = id || updateId;
     if (!selectedId) {
@@ -284,11 +300,13 @@ export default function ResourceTester({
     }
   }
 
+  // Initial list load whenever the target resource changes.
   useEffect(() => {
     loadAll();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [basePath]);
 
+  // Renders field control based on configured field type.
   function renderField(field, value, onChange) {
     if (field.type === "select") {
       return (

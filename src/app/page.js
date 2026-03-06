@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+// Dashboard cards rendered on the home page.
 const pages = [
   {
     href: "/vehicles",
@@ -27,6 +28,7 @@ const pages = [
   }
 ];
 
+// Landing page for navigating to each management module.
 export default function Home() {
   return (
     <div className="min-h-screen p-6 text-zinc-900 sm:p-10">

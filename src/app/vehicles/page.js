@@ -1,5 +1,6 @@
 import ResourceTester from "../_components/resource-tester";
 
+// Vehicles module page configured with vehicle-specific fields and table columns.
 export default function VehiclesPage() {
   return (
     <ResourceTester

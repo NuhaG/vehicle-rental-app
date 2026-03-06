@@ -1,5 +1,6 @@
 import ResourceTester from "../_components/resource-tester";
 
+// Payments module page configured with payment-specific fields and table columns.
 export default function PaymentsPage() {
   return (
     <ResourceTester

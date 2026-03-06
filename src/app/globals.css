@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Global color variables used throughout the app. */
 :root {
   --background: #f7f8fa;
   --foreground: #0f172a;
@@ -7,6 +8,7 @@
   --border: #d4d9e1;
 }
 
+/* Expose app tokens to Tailwind's theme layer. */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -14,6 +16,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Base page styling with a subtle textured background. */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -24,10 +27,12 @@ body {
   background-size: 22px 22px, 100% 100%;
 }
 
+/* Keep border color consistent across components. */
 * {
   border-color: var(--border);
 }
 
+/* Lightweight entrance animation for page content. */
 @keyframes riseIn {
   from {
     opacity: 0;
@@ -39,6 +44,7 @@ body {
   }
 }
 
+/* Animate page containers for a smoother first render. */
 main {
   animation: riseIn 280ms ease-out;
 }

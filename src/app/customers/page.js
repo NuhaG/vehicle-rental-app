@@ -1,5 +1,6 @@
 import ResourceTester from "../_components/resource-tester";
 
+// Customers module page configured with customer-specific fields and table columns.
 export default function CustomersPage() {
   return (
     <ResourceTester

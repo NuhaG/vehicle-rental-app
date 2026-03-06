@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
+// Returns all vehicle records.
 export async function GET() {
   try {
     const vehicles = await prisma.vehicle.findMany();
@@ -9,6 +10,7 @@ export async function GET() {
   }
 }
 
+// Creates a new vehicle record.
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -27,6 +29,7 @@ export async function POST(req) {
   }
 }
 
+// Maps common Prisma errors to HTTP responses.
 function handlePrismaError(error, fallbackMessage) {
   if (error?.code === "P2002") {
     return Response.json({ error: "Unique constraint violation" }, { status: 409 });

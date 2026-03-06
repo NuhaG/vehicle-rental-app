@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
+// Returns one vehicle by id.
 export async function GET(req, context) {
   const params = await context.params;
   const id = Number(params.id);
@@ -22,6 +23,7 @@ export async function GET(req, context) {
   }
 }
 
+// Updates one vehicle by id.
 export async function PUT(req, context) {
   const params = await context.params;
   const id = Number(params.id);
@@ -50,6 +52,7 @@ export async function PUT(req, context) {
   }
 }
 
+// Deletes one vehicle by id.
 export async function DELETE(req, context) {
   const params = await context.params;
   const id = Number(params.id);
@@ -68,6 +71,7 @@ export async function DELETE(req, context) {
   }
 }
 
+// Maps common Prisma errors to HTTP responses.
 function handlePrismaError(error, fallbackMessage) {
   if (error?.code === "P2003") {
     return Response.json(

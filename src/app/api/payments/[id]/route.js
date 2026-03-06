@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
+// Returns one payment by booking id.
 export async function GET(req, { params }) {
   params = await params;
   const id = Number(params.id);
@@ -22,6 +23,7 @@ export async function GET(req, { params }) {
   }
 }
 
+// Updates one payment by booking id.
 export async function PUT(req, { params }) {
   params = await params;
   const id = Number(params.id);
@@ -48,6 +50,7 @@ export async function PUT(req, { params }) {
   }
 }
 
+// Deletes one payment by booking id.
 export async function DELETE(req, { params }) {
   params = await params;
   const id = Number(params.id);
@@ -66,11 +69,13 @@ export async function DELETE(req, { params }) {
   }
 }
 
+// Converts date-like inputs to Date objects for Prisma.
 function toDate(value) {
   if (!value) return undefined;
   return new Date(value);
 }
 
+// Maps common Prisma errors to HTTP responses.
 function handlePrismaError(error, fallbackMessage) {
   if (error?.code === "P2003") {
     return Response.json({ error: "booking_id does not reference an existing booking" }, { status: 400 });

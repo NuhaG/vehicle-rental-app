@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
+// Returns all booking records.
 export async function GET() {
   try {
     const bookings = await prisma.booking.findMany();
@@ -10,6 +11,7 @@ export async function GET() {
   }
 }
 
+// Creates a new booking.
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -32,11 +34,13 @@ export async function POST(req) {
   }
 }
 
+// Converts date-like inputs to Date objects for Prisma.
 function toDate(value) {
   if (!value) return undefined;
   return new Date(value);
 }
 
+// Maps common Prisma errors to HTTP responses.
 function handlePrismaError(error, fallbackMessage) {
   if (error?.code === "P2003") {
     return Response.json(

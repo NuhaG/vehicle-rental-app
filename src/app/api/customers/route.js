@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
+// Returns all customers with their phone numbers.
 export async function GET() {
   try {
     const customers = await prisma.customer.findMany({
@@ -12,6 +13,7 @@ export async function GET() {
   }
 }
 
+// Creates a customer and optional phone records.
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -41,6 +43,7 @@ export async function POST(req) {
   }
 }
 
+// Normalizes mixed phone input to a clean string array.
 function normalizePhoneNumbers(phones) {
   if (phones === undefined) return undefined;
   if (!Array.isArray(phones)) return undefined;
@@ -50,6 +53,7 @@ function normalizePhoneNumbers(phones) {
     .filter((phone) => typeof phone === "string" && phone.trim().length > 0);
 }
 
+// Maps common Prisma errors to HTTP responses.
 function handlePrismaError(error, fallbackMessage) {
   if (error?.code === "P2002") {
     return Response.json({ error: "license_no must be unique" }, { status: 409 });

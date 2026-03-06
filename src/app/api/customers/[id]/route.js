@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
+// Returns one customer by id with phone numbers.
 export async function GET(req, { params }) {
   params = await params;
   const id = Number(params.id);
@@ -23,6 +24,7 @@ export async function GET(req, { params }) {
   }
 }
 
+// Updates one customer by id (including phones replacement if provided).
 export async function PUT(req, { params }) {
   params = await params;
   const id = Number(params.id);
@@ -61,6 +63,7 @@ export async function PUT(req, { params }) {
   }
 }
 
+// Deletes one customer by id.
 export async function DELETE(req, { params }) {
   params = await params;
   const id = Number(params.id);
@@ -79,6 +82,7 @@ export async function DELETE(req, { params }) {
   }
 }
 
+// Normalizes mixed phone input to a clean string array.
 function normalizePhoneNumbers(phones) {
   if (phones === undefined) return undefined;
   if (!Array.isArray(phones)) return undefined;
@@ -88,6 +92,7 @@ function normalizePhoneNumbers(phones) {
     .filter((phone) => typeof phone === "string" && phone.trim().length > 0);
 }
 
+// Maps common Prisma errors to HTTP responses.
 function handlePrismaError(error, fallbackMessage) {
   if (error?.code === "P2002") {
     return Response.json({ error: "license_no must be unique" }, { status: 409 });
