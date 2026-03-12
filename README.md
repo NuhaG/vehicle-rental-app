@@ -1,6 +1,6 @@
 # Vehicle Rental App
 
-Next.js + Prisma + MySQL application for managing:
+Next.js + Prisma + PostgreSQL application for managing:
 - vehicles
 - customers
 - bookings
@@ -12,18 +12,19 @@ It includes both backend API routes and frontend CRUD pages.
 - Next.js (App Router)
 - React
 - Prisma ORM
-- MySQL
+- PostgreSQL
 - Tailwind CSS v4
 
 ## Prerequisites
 - Node.js 18+
-- MySQL running locally (or update `DATABASE_URL` to your DB host)
+- PostgreSQL running locally (or update `DATABASE_URL` to your DB host)
 
 ## Environment Variables
 Create/update `.env`:
 
 ```env
-DATABASE_URL="mysql://USER:PASSWORD@localhost:3306/VehicleRentalDB"
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/VehicleRentalDB?schema=public"
+DIRECT_URL="postgresql://USER:PASSWORD@HOST:PORT/VehicleRentalDB?schema=public"
 ```
 
 ## Install & Run
@@ -88,3 +89,4 @@ npx prisma generate
 - `npm run lint` Run ESLint
 - `npm run build` Build production bundle
 - `npm run start` Start production server
+- `npm run seed` Seed the database once

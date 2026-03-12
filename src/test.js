@@ -1,4 +1,4 @@
-const prisma = require("./lib/prisma");
+const { prisma } = require("./lib/prisma");
 
 // Small local script to quickly verify DB connectivity and vehicle reads.
 async function main() {
@@ -6,4 +6,11 @@ async function main() {
   console.log(vehicles);
 }
 
-main();
+main()
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
