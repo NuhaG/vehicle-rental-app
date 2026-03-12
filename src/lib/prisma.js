@@ -1,12 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 
-// Reuses a single Prisma client during development to avoid connection storms on hot reload.
-const globalForPrisma = global;
+const globalForPrisma = globalThis;
 
 export const prisma =
-  globalForPrisma.prisma || new PrismaClient();
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: ["error"],
+  });
 
-// Cache Prisma instance only in development runtime.
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
